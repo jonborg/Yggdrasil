@@ -1,10 +1,19 @@
 package Family;
 
+import GUI.*;
+
+import javax.swing.*;
 import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args){
+        debugFamily();
+    }
+
+
+
+    public static void debugFamily(){
         Tree tree=new Tree();
         FileIO fileIO=new FileIO();
         Member[] person = new Member[5];
