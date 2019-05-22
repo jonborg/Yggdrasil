@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.Branch">
-  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="panelMain" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="2010" height="2000"/>
     </constraints>
     <properties>
-      <background color="-12543936"/>
-      <foreground color="-15110213"/>
+      <background color="-16777216"/>
+      <minimumSize width="1500" height="1000"/>
     </properties>
     <border type="none"/>
     <children>
-      <component id="d6f56" class="javax.swing.JButton" binding="button1" default-binding="true">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
+      <splitpane id="dae7e" binding="panelSplitter">
+        <constraints border-constraint="West"/>
         <properties>
-          <text value="Button"/>
+          <autoscrolls value="false"/>
+          <dividerSize value="10"/>
+          <focusable value="true"/>
+          <minimumSize width="1500" height="1000"/>
+          <oneTouchExpandable value="false"/>
+          <preferredSize width="1500" height="1000"/>
         </properties>
-      </component>
+        <border type="none"/>
+        <children>
+          <grid id="2734c" binding="panelMember" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <background color="-14715828"/>
+              <minimumSize width="500" height="1000"/>
+              <preferredSize width="500" height="1000"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="35b70" binding="panelFamily" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties>
+              <background color="-12943558"/>
+              <minimumSize width="1000" height="1000"/>
+              <preferredSize width="1000" height="1000"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </splitpane>
     </children>
   </grid>
-  <inspectionSuppressions>
-    <suppress inspection="NoLabelFor" id="1db3a"/>
-  </inspectionSuppressions>
 </form>

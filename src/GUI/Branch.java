@@ -1,13 +1,18 @@
 package GUI;
 
-import Family.Member;
-
 import javax.swing.*;
 
 public class Branch {
-    JPanel panelMain;
-    private JButton button1;
 
+    public JPanel panelMain;
+    private JSplitPane panelSplitter;
+    private JPanel panelMember;
+    private JPanel panelFamily;
 
+    private void createUIComponents(){
+        panelMain = new JPanel();
+        panelSplitter = new JSplitPane();
+        System.out.println(panelSplitter.getMaximumDividerLocation());
+    }
 
 }
