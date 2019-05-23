@@ -1,5 +1,6 @@
 package GUI;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
@@ -15,30 +16,39 @@ public class Branch {
     private JSplitPane panelSplitter;
     private JPanel panelMember;
     private JPanel panelFamily;
-    private JButton editButton;
-    private JScrollPane info;
 
-    private JButton photoMember;
-    private JLabel nameMember;
+
+
+
 
 
     private void createUIComponents(){
         createUIMember();
+        createUIFamily();
 
     }
 
     private void createUIMember(){
+        JScrollPane info;
+
+        JButton photoMember;
+        JLabel nameMember;
+
         panelSplitter = new JSplitPane();
         panelMember = new JPanel();
+        panelMember.setLayout(new GridBagLayout());
 
+        GridBagConstraints c = new GridBagConstraints();
 
         photoMember = createProfileButton("");
         nameMember = createLabel("");
         info = createInfoArea("");
 
-        panelMember.add(photoMember);
-        panelMember.add(nameMember);
-        panelMember.add(info);
+        System.out.println(c.insets);
+        c.gridx = 0; c.gridy=0; c.weighty=0; c.insets=new Insets(50,0,0,0); panelMember.add(photoMember, c);
+        c.gridy=1; c.weighty=0.1; c.insets=new Insets(0,0,40,0); panelMember.add(nameMember,c);
+        c.gridy=2;  c.weighty=0; panelMember.add(info,c);
+        c.gridy=3;  c.insets=new Insets(10,0,50,0); panelMember.add(new JButton("Edit Profile"),c);
     }
 
     private JButton createProfileButton(String path)   {
@@ -65,8 +75,7 @@ public class Branch {
 
         color = new Color (23,88,58);
         profile.setBackground(color);
-        color = new Color (255,255,255);
-        profile.setForeground(color);
+        profile.setForeground(new Color (255,255,255));
 
 
         profile.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -74,7 +83,7 @@ public class Branch {
 
     }
 
-    private JLabel createLabel(String str){
+    private JLabel createLabel(@NotNull String str){
         JLabel label = new JLabel();
         String[] aux;
         String html;
@@ -100,7 +109,7 @@ public class Branch {
 
         label.setText(html);
         label.setFont(new Font("Arial", Font.PLAIN, 30));
-        label.setForeground(new Color(255,255,255));
+        label.setForeground(new Color (255,255,255));
 
         return label;
     }
@@ -117,5 +126,49 @@ public class Branch {
         scroll.setPreferredSize(new Dimension(400,400));
 
         return scroll;
+    }
+
+    private void createUIFamily(){
+
+        panelFamily = new JPanel();
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        panelFamily.setLayout(new GridBagLayout());
+
+
+        int n_siblings=1;
+        int n_children=1;
+
+        createLabelTitles(panelFamily);
+        c.weightx=0.1;c.weighty=1; c.insets = new Insets(0,50,0,0); c.anchor=GridBagConstraints.LINE_START;
+
+        int maxi=1;
+        for (int j=0;j<3;j++) {
+
+            for (int i = 0; i < maxi; i++) {
+                c.gridx = i;
+                c.gridy = 1 + j * 3;
+                panelFamily.add(createProfileButton(""), c);
+            }
+        }
+
+    }
+
+    private void createLabelTitles(JPanel panel){
+        JLabel[] titles= new JLabel[3];
+        GridBagConstraints c = new GridBagConstraints();
+        String[] titleText = {"Parents","Siblings","Children"};
+
+        for (int i=0;i<titles.length;i++){
+            titles[i]=new JLabel();
+            titles[i].setText(titleText[i]);
+            titles[i].setFont(new Font("Arial", Font.PLAIN, 30));
+            titles[i].setForeground(new Color (255,255,255));
+
+            c.anchor=GridBagConstraints.LINE_START;
+            c.gridy=i*3;
+            panel.add(titles[i],c);
+        }
     }
 }

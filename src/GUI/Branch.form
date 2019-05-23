@@ -6,7 +6,8 @@
     </constraints>
     <properties>
       <background color="-16777216"/>
-      <minimumSize width="10000" height="1000"/>
+      <maximumSize width="1500" height="1000"/>
+      <minimumSize width="1500" height="1000"/>
       <preferredSize width="1500" height="1000"/>
     </properties>
     <border type="none"/>
@@ -15,6 +16,7 @@
         <constraints border-constraint="West"/>
         <properties>
           <autoscrolls value="false"/>
+          <dividerLocation value="500"/>
           <dividerSize value="10"/>
           <focusable value="true"/>
           <minimumSize width="1500" height="1000"/>
@@ -23,38 +25,51 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="2734c" binding="panelMember" custom-create="true" layout-manager="FlowLayout" hgap="50" vgap="50" flow-align="1">
-            <constraints>
-              <splitpane position="left"/>
-            </constraints>
-            <properties>
-              <background color="-14715828"/>
-              <minimumSize width="500" height="1000"/>
-              <preferredSize width="500" height="1000"/>
-            </properties>
-            <border type="bevel-raised"/>
-            <children>
-              <component id="73a25" class="javax.swing.JButton" binding="editButton">
-                <constraints/>
-                <properties>
-                  <foreground color="-16777216"/>
-                  <text value="Edit Profile"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="35b70" binding="panelFamily" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <scrollpane id="c33db">
             <constraints>
               <splitpane position="right"/>
             </constraints>
             <properties>
-              <background color="-12943558"/>
-              <minimumSize width="100000" height="1000"/>
-              <preferredSize width="100000" height="1000"/>
+              <maximumSize width="2000" height="2000"/>
+              <preferredSize width="2000" height="1000"/>
             </properties>
             <border type="none"/>
-            <children/>
-          </grid>
+            <children>
+              <grid id="35b70" binding="panelFamily" custom-create="true" layout-manager="GridBagLayout">
+                <constraints/>
+                <properties>
+                  <background color="-12943558"/>
+                  <maximumSize width="1000" height="1000"/>
+                  <minimumSize width="1000" height="1000"/>
+                  <preferredSize width="1000" height="1000"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </scrollpane>
+          <scrollpane id="9be5a">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <horizontalScrollBarPolicy value="31"/>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="2734c" binding="panelMember" custom-create="true" layout-manager="GridBagLayout">
+                <constraints/>
+                <properties>
+                  <background color="-14715828"/>
+                  <minimumSize width="500" height="1000"/>
+                  <preferredSize width="500" height="1000"/>
+                </properties>
+                <border type="bevel-raised"/>
+                <children/>
+              </grid>
+            </children>
+          </scrollpane>
         </children>
       </splitpane>
     </children>
