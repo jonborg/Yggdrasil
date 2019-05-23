@@ -18,12 +18,12 @@ public class Main {
         FileIO fileIO=new FileIO();
         Member[] person = new Member[5];
 
-        person[0] = new Member("Jorge Henrique Quartin Coelho Borges");
-        person[1] = new Member("Ana Maria de Oliveira e Sousa Quartin Borges");
+        person[0] = new Member("Jorge");
+        person[1] = new Member("Ana");
 
-        person[2] = new Member("João Manuel Sousa Quartin Borges");
-        person[3] = new Member("Inês Pedro Sousa Quartin Borges");
-        person[4] = new Member("Raul Julia Sousa Quartin Borges");
+        person[2] = new Member("João");
+        person[3] = new Member("Inês");
+        person[4] = new Member("Raul");
 
         for (int i=0;i<5;i++) {
             tree.addMember(person[i]);

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.Branch">
-  <grid id="27dc6" binding="panelMain" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+  <grid id="27dc6" binding="panelMain" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="2010" height="2000"/>
+      <xy x="20" y="20" width="10000" height="2000"/>
     </constraints>
     <properties>
       <background color="-16777216"/>
-      <minimumSize width="1500" height="1000"/>
+      <minimumSize width="10000" height="1000"/>
+      <preferredSize width="1500" height="1000"/>
     </properties>
     <border type="none"/>
     <children>
-      <splitpane id="dae7e" binding="panelSplitter">
+      <splitpane id="dae7e" binding="panelSplitter" custom-create="true">
         <constraints border-constraint="West"/>
         <properties>
           <autoscrolls value="false"/>
@@ -18,11 +19,11 @@
           <focusable value="true"/>
           <minimumSize width="1500" height="1000"/>
           <oneTouchExpandable value="false"/>
-          <preferredSize width="1500" height="1000"/>
+          <preferredSize width="2000" height="1000"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="2734c" binding="panelMember" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="2734c" binding="panelMember" custom-create="true" layout-manager="FlowLayout" hgap="50" vgap="50" flow-align="1">
             <constraints>
               <splitpane position="left"/>
             </constraints>
@@ -31,8 +32,16 @@
               <minimumSize width="500" height="1000"/>
               <preferredSize width="500" height="1000"/>
             </properties>
-            <border type="none"/>
-            <children/>
+            <border type="bevel-raised"/>
+            <children>
+              <component id="73a25" class="javax.swing.JButton" binding="editButton">
+                <constraints/>
+                <properties>
+                  <foreground color="-16777216"/>
+                  <text value="Edit Profile"/>
+                </properties>
+              </component>
+            </children>
           </grid>
           <grid id="35b70" binding="panelFamily" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
@@ -40,8 +49,8 @@
             </constraints>
             <properties>
               <background color="-12943558"/>
-              <minimumSize width="1000" height="1000"/>
-              <preferredSize width="1000" height="1000"/>
+              <minimumSize width="100000" height="1000"/>
+              <preferredSize width="100000" height="1000"/>
             </properties>
             <border type="none"/>
             <children/>
