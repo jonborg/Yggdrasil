@@ -68,9 +68,9 @@ public class Member extends Person {
         }
     }
 
-
-
-
+    public List<Integer> getParents(){
+        return parents;
+    }
 
     public Member[] getSiblings(Tree tree){
         Set<Member> siblings = new HashSet();
@@ -84,6 +84,9 @@ public class Member extends Person {
         }
 
         return siblings.toArray(Member[]::new);
+    }
+    public List<Integer> getChildren(){
+        return children;
     }
 
 

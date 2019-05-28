@@ -28,6 +28,9 @@ public class Tree {
           return member;
     }
 
+    public Member getMember(int key){
+        return map.get(key);
+    }
 
 
 

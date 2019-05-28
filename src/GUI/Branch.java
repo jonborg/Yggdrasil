@@ -1,51 +1,71 @@
 package GUI;
 
-import static javax.swing.GroupLayout.Alignment.*;
-
+import Family.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Flow;
 
-public class Branch {
+public class Branch extends JFrame {
 
 
-    public JPanel panelMain;
-    private JSplitPane panelSplitter;
+    public JSplitPane panelMain;
     private JPanel panelMember;
     private JPanel panelFamily;
+    private JScrollPane scrollMember;
     private JScrollPane scrollFamily;
 
+    Tree tree;
 
-    private void createUIComponents(){
-        createUIMember();
-        createUIFamily();
+    public Branch(Tree loadTree){
+
+        tree=loadTree;
+        int id=3;
+
+        createUIMember(tree.getMember(id));
+        createUIFamily(tree.getMember(id));
+
+        panelMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,scrollMember,scrollFamily);
+        panelMain.setDividerLocation(panelMember.getPreferredSize().width+20);
+        getContentPane().add(panelMain);
+
+        setPreferredSize(new Dimension(1500, 1000));
     }
 
-    private void createUIMember(){
+    private void createUIMember(Member current){
         JScrollPane info;
-
         JButton photoMember;
         JLabel nameMember;
+        BoxLayout layout;
 
-        panelSplitter = new JSplitPane();
+        scrollMember = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelMember = new JPanel();
-        panelMember.setLayout(new GridBagLayout());
+        panelMember.setPreferredSize(new Dimension(500,1000));
 
-        GridBagConstraints c = new GridBagConstraints();
+        layout = new BoxLayout(panelMember,BoxLayout.Y_AXIS);
+        panelMember.setLayout(layout);
 
         photoMember = createProfileButton("");
-        nameMember = createLabel("");
+        nameMember = createLabel(current.getName());
         info = createInfoArea("");
 
-        System.out.println(c.insets);
-        c.gridx = 0; c.gridy=0; c.weighty=0; c.insets=new Insets(50,0,0,0); panelMember.add(photoMember, c);
-        c.gridy=1; c.weighty=0.1; c.insets=new Insets(0,0,40,0); panelMember.add(nameMember,c);
-        c.gridy=2;  c.weighty=0; panelMember.add(info,c);
-        c.gridy=3;  c.insets=new Insets(10,0,50,0); panelMember.add(new JButton("Edit Profile"),c);
+        photoMember.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameMember.setAlignmentX(Component.CENTER_ALIGNMENT);
+        info.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+
+        Dimension dim = new Dimension(400,500);
+        info.setMinimumSize(dim);
+        info.setMaximumSize(dim);
+        info.setPreferredSize(dim);
+
+
+        panelMember.setBackground(new Color (23,88,58));
+        panelMember.add(photoMember); panelMember.add(nameMember); panelMember.add(info);
+        scrollMember.setViewportView(panelMember);
     }
 
     private JButton createProfileButton(String path)   {
@@ -81,7 +101,7 @@ public class Branch {
     }
 
     private JLabel createLabel(String str){
-        JLabel label = new JLabel();
+        JLabel label = new JLabel("", JLabel.CENTER);
         String[] aux;
         String html;
 
@@ -107,7 +127,7 @@ public class Branch {
         label.setText(html);
         label.setFont(new Font("Arial", Font.PLAIN, 30));
         label.setForeground(new Color (255,255,255));
-
+        label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
         return label;
     }
 
@@ -125,27 +145,28 @@ public class Branch {
         return scroll;
     }
 
-    private void createUIFamily(){
+    private void createUIFamily(Member current){
 
-        scrollFamily = new JScrollPane();
+        scrollFamily = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelFamily = new JPanel();
+        panelFamily.setBackground(new Color(86 ,186,50));
 
-
-        JButton[] aux1 = new JButton[10];
+        JButton[] aux1 = new JButton[current.getParents().size()];
         for (int i=0;i<aux1.length;i++){
             aux1[i]=createProfileButton("");
         }
-        JButton[] aux2 = new JButton[3];
+        JButton[] aux2 = new JButton[current.getSiblings(tree).length];
         for (int i=0;i<aux2.length;i++){
             aux2[i]=createProfileButton("");
         }
-        JButton[] aux3 = new JButton[1];
+        JButton[] aux3 = new JButton[current.getChildren().size()];
         for (int i=0;i<aux3.length;i++){
             aux3[i]=createProfileButton("");
         }
+
         int maxDimension=Math.max(aux1.length,Math.max(aux2.length,aux3.length));
 
-       
+        JLabel[] titles = createLabelTitles();
 
         GroupLayout layout = new GroupLayout(panelFamily);
         panelFamily.setLayout(layout);
@@ -158,27 +179,24 @@ public class Branch {
         GroupLayout.Group childrenV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),aux3);
 
 
-        /*
-        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(aux).addComponent(aux2));
-        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(aux).addComponent(aux2));
-        */
-        layout.setHorizontalGroup(layout.createParallelGroup().addGroup(parentsH).addGroup(siblingsH).addGroup(childrenH));
-        layout.setVerticalGroup(layout.createSequentialGroup().addGroup(parentsV).addGroup(siblingsV).addGroup(childrenV));
+        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(titles[0]).addGroup(parentsH).addComponent(titles[1]).addGroup(siblingsH).addComponent(titles[2]).addGroup(childrenH));
+        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(titles[0]).addGroup(parentsV).addComponent(titles[1]).addGroup(siblingsV).addComponent(titles[2]).addGroup(childrenV));
+
+        scrollFamily.setViewportView(panelFamily);
     }
 
     private GroupLayout.Group returnGroup(GroupLayout.Group group, Component[] components ){
 
 
         for (int i=0;i<components.length;i++){
-            group.addComponent(components[i]);
+            group.addComponent(components[i],GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE);
         }
         return group;
     }
 
 
-    private void createLabelTitles(JPanel panel){
+    private JLabel[] createLabelTitles(){
         JLabel[] titles= new JLabel[4];
-        GridBagConstraints c = new GridBagConstraints();
         String[] titleText = {"Parents","Siblings","Children","Partner"};
 
         for (int i=0;i<titles.length;i++){
@@ -186,16 +204,8 @@ public class Branch {
             titles[i].setText(titleText[i]);
             titles[i].setFont(new Font("Arial", Font.PLAIN, 30));
             titles[i].setForeground(new Color (255,255,255));
-            c.anchor=GridBagConstraints.NORTHWEST;
-            if (i<titles.length-1) {
-                c.gridy = i * 3;
-                panel.add(titles[i],c);
-
-            }else{
-                c.gridx=1; c.gridy=0;
-            }
-
         }
+        return titles;
     }
 
 
