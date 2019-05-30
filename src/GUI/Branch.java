@@ -4,6 +4,8 @@ import Family.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +21,10 @@ public class Branch extends JFrame {
 
     Tree tree;
 
-    public Branch(Tree loadTree){
+    public Branch(Tree loadTree,int currentId){
 
         tree=loadTree;
-        int id=3;
+        int id=currentId;
 
         createUIMember(tree.getMember(id));
         createUIFamily(tree.getMember(id));
@@ -47,7 +49,7 @@ public class Branch extends JFrame {
         layout = new BoxLayout(panelMember,BoxLayout.Y_AXIS);
         panelMember.setLayout(layout);
 
-        photoMember = createProfileButton("");
+        photoMember = new ProfileButton(current.getId());
         nameMember = createLabel(current.getName());
         info = createInfoArea("");
 
@@ -66,38 +68,6 @@ public class Branch extends JFrame {
         panelMember.setBackground(new Color (23,88,58));
         panelMember.add(photoMember); panelMember.add(nameMember); panelMember.add(info);
         scrollMember.setViewportView(panelMember);
-    }
-
-    private JButton createProfileButton(String path)   {
-        JButton profile = new JButton();
-        Dimension dim;
-        Color color;
-
-
-        try {
-            BufferedImage buttonIcon = ImageIO.read(new File(path));
-            profile.setIcon(new ImageIcon(buttonIcon));
-        }catch (IOException e){
-            profile.setFont(new Font("Arial", Font.PLAIN, 30));
-            profile.setText("<html><center>Add<br />profile<br />picture</center></html>");
-        }
-
-        dim= new Dimension(200,200);
-        profile.setPreferredSize(dim);
-        profile.setMaximumSize(dim);
-        profile.setMinimumSize(dim);
-
-        profile.setVerticalTextPosition(SwingConstants.CENTER);
-        profile.setHorizontalTextPosition(SwingConstants.CENTER);
-
-        color = new Color (23,88,58);
-        profile.setBackground(color);
-        profile.setForeground(new Color (255,255,255));
-
-
-        profile.setBorder(BorderFactory.createRaisedBevelBorder());
-        return profile;
-
     }
 
     private JLabel createLabel(String str){
@@ -153,15 +123,15 @@ public class Branch extends JFrame {
 
         JButton[] aux1 = new JButton[current.getParents().size()];
         for (int i=0;i<aux1.length;i++){
-            aux1[i]=createProfileButton("");
+            aux1[i] = new ProfileButton(current.getParents().);
         }
         JButton[] aux2 = new JButton[current.getSiblings(tree).length];
         for (int i=0;i<aux2.length;i++){
-            aux2[i]=createProfileButton("");
+            aux2[i] = new ProfileButton("");
         }
         JButton[] aux3 = new JButton[current.getChildren().size()];
         for (int i=0;i<aux3.length;i++){
-            aux3[i]=createProfileButton("");
+            aux3[i] = new ProfileButton("");
         }
 
         int maxDimension=Math.max(aux1.length,Math.max(aux2.length,aux3.length));
@@ -208,6 +178,11 @@ public class Branch extends JFrame {
         return titles;
     }
 
+    public void reload(int currentId){
+        createUIMember(tree.getMember(currentId));
+        createUIFamily(tree.getMember(currentId));
+
+    }
 
 
 }

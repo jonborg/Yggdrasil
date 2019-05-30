@@ -9,7 +9,7 @@ public class Main {
         FileIO fileIO=new FileIO();
         try {
             tree = fileIO.loadFile();
-            JFrame frame = new Branch(tree);
+            JFrame frame = new Branch(tree,3);
             frame.pack();
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);

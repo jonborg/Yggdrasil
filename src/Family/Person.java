@@ -16,4 +16,6 @@ public class Person {
         this.id = id;
     }
 
+    public int getId (){ return this.id; }
+
 }
