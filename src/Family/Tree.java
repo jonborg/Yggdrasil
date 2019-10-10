@@ -32,6 +32,7 @@ public class Tree {
         return map.get(key);
     }
 
+    public String getMemberName(int key){ return this.getMember(key).getName();}
 
 
 

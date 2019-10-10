@@ -40,7 +40,18 @@ public class Member extends Person {
         partner.partner=this.getId();
     }
 
-
+    public int getMemberId(String mode, int index, Tree tree){
+        if (mode.toLowerCase().contains("parent")){
+            return this.getParents().get(index);
+        }
+        if (mode.toLowerCase().contains("sibling")){
+            return this.getSiblings(tree)[index].getId();
+        }
+        if (mode.toLowerCase().contains("child")){
+            return this.getChildren().get(index);
+        }
+        return -1;
+    }
 
 
     public void associateParent(Tree tree, Member parent){

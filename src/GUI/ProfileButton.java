@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class ProfileButton extends JButton {
     int id;
+    int DIMENSION_WIDTH=200;
+    int DIMENSION_HEIGHT=200;
 
     public ProfileButton(int setId) {
 
@@ -20,7 +22,7 @@ public class ProfileButton extends JButton {
         setFont(new Font("Arial", Font.PLAIN, 30));
         setText("<html><center>Add<br />profile<br />picture</center></html>");
 
-        dim = new Dimension(200, 200);
+        dim = new Dimension(DIMENSION_WIDTH, DIMENSION_HEIGHT);
         setPreferredSize(dim);
         setMaximumSize(dim);
         setMinimumSize(dim);
@@ -51,7 +53,7 @@ public class ProfileButton extends JButton {
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         }
 
-        dim = new Dimension(200, 200);
+        dim = new Dimension(DIMENSION_WIDTH, DIMENSION_HEIGHT);
         setPreferredSize(dim);
         setMaximumSize(dim);
         setMinimumSize(dim);

@@ -98,7 +98,13 @@ public class Branch extends JFrame {
         label.setFont(new Font("Arial", Font.PLAIN, 30));
         label.setForeground(new Color (255,255,255));
         label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
+        label.setPreferredSize(new Dimension (200,50));
         return label;
+    }
+
+    private JLabel createMemberLabel(String str){
+        String[] splitter=str.split(" ");
+        return(splitter.length==1 ?  createLabel(str) :  createLabel(splitter[0]+" "+splitter[splitter.length-1]));
     }
 
     private JScrollPane createInfoArea(String str){
@@ -121,36 +127,62 @@ public class Branch extends JFrame {
         panelFamily = new JPanel();
         panelFamily.setBackground(new Color(86 ,186,50));
 
-        JButton[] aux1 = new JButton[current.getParents().size()];
-        for (int i=0;i<aux1.length;i++){
-            aux1[i] = new ProfileButton(current.getParents().get(i));
-        }
-        JButton[] aux2 = new JButton[current.getSiblings(tree).length];
-        for (int i=0;i<aux2.length;i++){
-            aux2[i] = new ProfileButton(current.getSiblings(tree)[i].getId());
-        }
-        JButton[] aux3 = new JButton[current.getChildren().size()];
-        for (int i=0;i<aux3.length;i++){
-            aux3[i] = new ProfileButton(current.getChildren().get(i));
+        int aux;
+
+        JButton[] parentsButtonList = new JButton[current.getParents().size()];
+        JLabel[] parentsLabelList = new JLabel[current.getParents().size()];
+        for (int i=0;i<parentsButtonList.length;i++){
+            aux=current.getMemberId("parent",i,tree);
+            parentsButtonList[i] = new ProfileButton(aux);
+            parentsLabelList[i] = createMemberLabel(tree.getMemberName(aux));
         }
 
-        int maxDimension=Math.max(aux1.length,Math.max(aux2.length,aux3.length));
+        JButton[] siblingsButtonList = new JButton[current.getSiblings(tree).length];
+        JLabel[] siblingsLabelList = new JLabel[current.getSiblings(tree).length];
+        for (int i=0;i<siblingsButtonList.length;i++){
+            aux=current.getMemberId("sibling",i,tree);
+            siblingsButtonList[i] = new ProfileButton(aux);
+            siblingsLabelList[i] = createMemberLabel(tree.getMemberName(aux));
+        }
+
+        JButton[] childrenButtonList = new JButton[current.getChildren().size()];
+        JLabel[] childrenLabelList = new JLabel[current.getChildren().size()];
+        for (int i=0;i<childrenButtonList.length;i++){
+            aux=current.getMemberId("child",i,tree);
+            childrenButtonList[i] = new ProfileButton(aux);
+            childrenLabelList[i] = createMemberLabel(tree.getMemberName(aux));
+        }
+
+        int maxDimension=Math.max(parentsButtonList.length,Math.max(siblingsButtonList.length,childrenButtonList.length));
 
         JLabel[] titles = createLabelTitles();
 
         GroupLayout layout = new GroupLayout(panelFamily);
         panelFamily.setLayout(layout);
 
-        GroupLayout.Group parentsH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),aux1);
-        GroupLayout.Group parentsV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),aux1);
-        GroupLayout.Group siblingsH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),aux2);
-        GroupLayout.Group siblingsV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),aux2);
-        GroupLayout.Group childrenH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),aux3);
-        GroupLayout.Group childrenV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),aux3);
+        GroupLayout.Group parentsButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),parentsButtonList);
+        GroupLayout.Group parentsButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),parentsButtonList);
+        GroupLayout.Group siblingsButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),siblingsButtonList);
+        GroupLayout.Group siblingsButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),siblingsButtonList);
+        GroupLayout.Group childrenButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),childrenButtonList);
+        GroupLayout.Group childrenButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),childrenButtonList);
 
+        GroupLayout.Group parentsLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),parentsLabelList);
+        GroupLayout.Group parentsLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),parentsLabelList);
+        /*    GroupLayout.Group siblingsLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),siblingsLabelList);
+        GroupLayout.Group siblingsLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),siblingsLabelList);
+        GroupLayout.Group childrenLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),childrenLabelList);
+        GroupLayout.Group childrenLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),childrenLabelList);
+*/
 
-        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(titles[0]).addGroup(parentsH).addComponent(titles[1]).addGroup(siblingsH).addComponent(titles[2]).addGroup(childrenH));
-        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(titles[0]).addGroup(parentsV).addComponent(titles[1]).addGroup(siblingsV).addComponent(titles[2]).addGroup(childrenV));
+        layout.setHorizontalGroup(layout.createParallelGroup()
+                .addComponent(titles[0]).addGroup(parentsButtonH).addGroup(parentsLabelH)
+                .addComponent(titles[1]).addGroup(siblingsButtonH)
+                .addComponent(titles[2]).addGroup(childrenButtonH));
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addComponent(titles[0]).addGroup(parentsButtonV).addGroup(parentsLabelV)
+                .addComponent(titles[1]).addGroup(siblingsButtonV)
+                .addComponent(titles[2]).addGroup(childrenButtonV));
 
         scrollFamily.setViewportView(panelFamily);
     }

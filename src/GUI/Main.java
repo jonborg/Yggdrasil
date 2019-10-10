@@ -2,6 +2,7 @@ package GUI;
 
 import Family.*;
 import javax.swing.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,8 +15,8 @@ public class Main {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }catch(Exception e) {
-            System.out.println("File not found");
+        }catch(IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
