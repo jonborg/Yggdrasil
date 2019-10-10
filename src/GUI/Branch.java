@@ -19,7 +19,7 @@ public class Branch extends JFrame {
     private JScrollPane scrollMember;
     private JScrollPane scrollFamily;
 
-    Tree tree;
+    static Tree tree;
 
     public Branch(Tree loadTree,int currentId){
 
@@ -123,15 +123,15 @@ public class Branch extends JFrame {
 
         JButton[] aux1 = new JButton[current.getParents().size()];
         for (int i=0;i<aux1.length;i++){
-            aux1[i] = new ProfileButton(current.getParents().);
+            aux1[i] = new ProfileButton(current.getParents().get(i));
         }
         JButton[] aux2 = new JButton[current.getSiblings(tree).length];
         for (int i=0;i<aux2.length;i++){
-            aux2[i] = new ProfileButton("");
+            aux2[i] = new ProfileButton(current.getSiblings(tree)[i].getId());
         }
         JButton[] aux3 = new JButton[current.getChildren().size()];
         for (int i=0;i<aux3.length;i++){
-            aux3[i] = new ProfileButton("");
+            aux3[i] = new ProfileButton(current.getChildren().get(i));
         }
 
         int maxDimension=Math.max(aux1.length,Math.max(aux2.length,aux3.length));

@@ -44,13 +44,13 @@ public class Main {
 
 
         for (int i=0;i<5;i++){
-            System.out.println(person[i].id);
-            System.out.println("Parents:\r\n"+person[i].parents);
+            System.out.println(person[i].getId());
+            System.out.println("Parents:\r\n"+person[i].getParents());
             System.out.println("Siblings:");
             for (Member s: person[i].getSiblings(tree))
-                System.out.println(s.id+" ");
-            System.out.println("Children:\r\n"+person[i].children);
-            System.out.println("Partner:\r\n"+person[i].partner);
+                System.out.println(s.getId()+" ");
+            System.out.println("Children:\r\n"+person[i].getChildren());
+            System.out.println("Partner:\r\n"+person[i].getPartner());
             System.out.println("\r\n");
         }
 

@@ -52,8 +52,8 @@ public class FileIO {
         String aux;
         member.setId(Integer.parseInt(info[0]));
 
-        member.parents=relationTrim(member.parents,info[2]);
-        member.children=relationTrim(member.children,info[3]);
+        member.loadParents(relationTrim(member.getParents(),info[2]));
+        member.loadChildren(relationTrim(member.getChildren(),info[3]));
 
 
     }

@@ -4,10 +4,10 @@ import java.util.*;
 
 public class Member extends Person {
 
-    List<Integer> parents = new ArrayList<>();
-    List<Integer> children = new ArrayList<>();
+    private List<Integer> parents = new ArrayList<>();
+    private List<Integer> children = new ArrayList<>();
 
-    Integer partner;
+    private Integer partner;
 
     public Member(String name) {
         super(name);
@@ -15,25 +15,30 @@ public class Member extends Person {
 
 
 
-
-
     private void setParent(Member parent) {
-        if (!this.parents.contains(parent.id))
-            this.parents.add(parent.id);
-        if (!parent.children.contains(this.id))
-            parent.children.add(this.id);
+        if (!this.parents.contains(parent.getId()))
+            this.parents.add(parent.getId());
+        if (!parent.children.contains(this.getId()))
+            parent.children.add(this.getId());
+    }
+
+    void loadParents(List<Integer> parents){
+        this.parents=parents;
     }
 
     private void setChild(Member child) {
-        this.children.add(child.id);
-        child.parents.add(this.id);
+        this.children.add(child.getId());
+        child.parents.add(this.getId());
+    }
+
+    void loadChildren(List<Integer> children){
+        this.children=children;
     }
 
     private void setPartner(Member partner){
-        this.partner=partner.id;
-        partner.partner=this.id;
+        this.partner=partner.getId();
+        partner.partner=this.getId();
     }
-
 
 
 
@@ -72,12 +77,13 @@ public class Member extends Person {
         return parents;
     }
 
+
     public Member[] getSiblings(Tree tree){
         Set<Member> siblings = new HashSet();
         for(int parentId : this.parents){
             Member parent = tree.map.get(parentId);
             for (int siblingId : parent.children){
-                if (siblingId != this.id) {
+                if (siblingId != this.getId()) {
                     siblings.add(tree.map.get(siblingId));
                 }
             }
@@ -85,8 +91,15 @@ public class Member extends Person {
 
         return siblings.toArray(Member[]::new);
     }
+
+
     public List<Integer> getChildren(){
         return children;
+    }
+
+
+    public int getPartner(){
+        return partner;
     }
 
 
@@ -106,7 +119,7 @@ public class Member extends Person {
 
     public String toString(){
         String separator = ",,";
-        String str = id+separator+name+separator;
+        String str = this.getId()+separator+this.getName()+separator;
 
         str += relationToString(parents)+separator;
         str += relationToString(children);

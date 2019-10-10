@@ -1,8 +1,8 @@
 package Family;
 
 public class Person {
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public Person(String name){
         this.name = name;
