@@ -129,12 +129,25 @@ public class Branch extends JFrame {
 
         int aux;
 
-        JButton[] parentsButtonList = new JButton[current.getParents().size()];
-        JLabel[] parentsLabelList = new JLabel[current.getParents().size()];
-        for (int i=0;i<parentsButtonList.length;i++){
+
+        JLabel[] titles = createLabelTitles();
+
+        GridBagLayout layout = new GridBagLayout();
+        panelFamily.setLayout(layout);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.FIRST_LINE_START;
+
+
+
+
+        for (int i=0;i<current.getParents().size();i++){
             aux=current.getMemberId("parent",i,tree);
-            parentsButtonList[i] = new ProfileButton(aux);
-            parentsLabelList[i] = createMemberLabel(tree.getMemberName(aux));
+            System.out.println(aux+" "+i+current.getParents());
+            addGridBagComponent(panelFamily,new ProfileButton(current.getMemberId("parent",aux,tree)),1,i,1,1,GridBagConstraints.CENTER);
+            addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),2,i,1,1,GridBagConstraints.CENTER);
+
+            panelFamily.add(new ProfileButton(current.getMemberId("parent",i,tree)));
+           // parentsLabelList[i] = ;
         }
 
         JButton[] siblingsButtonList = new JButton[current.getSiblings(tree).length];
@@ -153,49 +166,27 @@ public class Branch extends JFrame {
             childrenLabelList[i] = createMemberLabel(tree.getMemberName(aux));
         }
 
-        int maxDimension=Math.max(parentsButtonList.length,Math.max(siblingsButtonList.length,childrenButtonList.length));
-
-        JLabel[] titles = createLabelTitles();
-
-        GroupLayout layout = new GroupLayout(panelFamily);
-        panelFamily.setLayout(layout);
-
-        GroupLayout.Group parentsButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),parentsButtonList);
-        GroupLayout.Group parentsButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),parentsButtonList);
-        GroupLayout.Group siblingsButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),siblingsButtonList);
-        GroupLayout.Group siblingsButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),siblingsButtonList);
-        GroupLayout.Group childrenButtonH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),childrenButtonList);
-        GroupLayout.Group childrenButtonV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),childrenButtonList);
-
-        GroupLayout.Group parentsLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),parentsLabelList);
-        GroupLayout.Group parentsLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),parentsLabelList);
-        /*    GroupLayout.Group siblingsLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),siblingsLabelList);
-        GroupLayout.Group siblingsLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),siblingsLabelList);
-        GroupLayout.Group childrenLabelH = (GroupLayout.SequentialGroup) returnGroup(layout.createSequentialGroup(),childrenLabelList);
-        GroupLayout.Group childrenLabelV = (GroupLayout.ParallelGroup) returnGroup(layout.createParallelGroup(),childrenLabelList);
-*/
-
-        layout.setHorizontalGroup(layout.createParallelGroup()
-                .addComponent(titles[0]).addGroup(parentsButtonH).addGroup(parentsLabelH)
-                .addComponent(titles[1]).addGroup(siblingsButtonH)
-                .addComponent(titles[2]).addGroup(childrenButtonH));
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(titles[0]).addGroup(parentsButtonV).addGroup(parentsLabelV)
-                .addComponent(titles[1]).addGroup(siblingsButtonV)
-                .addComponent(titles[2]).addGroup(childrenButtonV));
-
         scrollFamily.setViewportView(panelFamily);
+
     }
 
-    private GroupLayout.Group returnGroup(GroupLayout.Group group, Component[] components ){
+    private void addGridBagComponent(JPanel p, JComponent c, int x, int y,
+                         int width, int height, int align) {
 
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        for (int i=0;i<components.length;i++){
-            group.addComponent(components[i],GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE);
-        }
-        return group;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = width;
+        gbc.gridheight = height;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.anchor = align;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        p.add(c, gbc);
+
     }
-
 
     private JLabel[] createLabelTitles(){
         JLabel[] titles= new JLabel[4];

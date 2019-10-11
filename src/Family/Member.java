@@ -115,6 +115,7 @@ public class Member extends Person {
 
 
 
+
     private String relationToString(List<Integer> relation) {
         String str = "";
 
