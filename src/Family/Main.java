@@ -18,7 +18,7 @@ public class Main {
         FileIO fileIO=new FileIO();
         Member[] person = new Member[5];
 
-        person[0] = new Member("Jorge");
+        person[0] = new Member("Henrique Vasconcelos Albertino");
         person[1] = new Member("Ana");
 
         person[2] = new Member("João");

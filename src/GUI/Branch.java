@@ -72,39 +72,59 @@ public class Branch extends JFrame {
 
     private JLabel createLabel(String str){
         JLabel label = new JLabel("", JLabel.CENTER);
-        String[] aux;
         String html;
 
 
-        aux = str.split(" ");
         html="<html><center>";
 
-        for (int i=0;i<aux.length;i=i+3){
-            html += aux[i];
-            if (i+1<aux.length){
-                html+=" "+aux[i+1];
-            }
-            if (i+2<aux.length){
-                html+=" "+aux[i+2];
-            }
-            if (i+1<aux.length){
-                html+="<br />";
-            }
-        }
+        html+=generateNameLabel(str,15);
+
         html+="</center></html>";
 
 
         label.setText(html);
         label.setFont(new Font("Arial", Font.PLAIN, 30));
         label.setForeground(new Color (255,255,255));
-        label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
-        label.setPreferredSize(new Dimension (200,50));
+        //label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
+        //label.setPreferredSize(new Dimension (200,50));
         return label;
     }
 
     private JLabel createMemberLabel(String str){
         String[] splitter=str.split(" ");
-        return(splitter.length==1 ?  createLabel(str) :  createLabel(splitter[0]+" "+splitter[splitter.length-1]));
+
+        JLabel label = new JLabel();
+
+        label.setText("<html>" + (generateNameLabel(str,12)) + "</html>");
+        label.setFont(new Font("Arial", Font.PLAIN, 30));
+        label.setForeground(new Color (255,255,255));
+        //label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
+        //label.setPreferredSize(new Dimension (200,50));
+        return label;
+    }
+
+    private String generateNameLabel(String bigName, int maxLetters){
+        String[] sepName;
+        String result="";
+        int counter=0;
+
+
+        sepName = bigName.split(" ");
+        for (String name:sepName){
+            if (result.equals("")){
+                result=name;
+                counter=name.length();
+                continue;
+            }
+            if (result.length()+name.length()+1<=maxLetters){
+                result+=" "+name;
+                counter+=name.length()+1;
+            }else{
+                result+="<br />"+name;
+                counter=0;
+            }
+        }
+        return result;
     }
 
     private JScrollPane createInfoArea(String str){
@@ -138,32 +158,30 @@ public class Branch extends JFrame {
         c.fill = GridBagConstraints.FIRST_LINE_START;
 
 
+        for (int i=0; i<titles.length; i++){
+            addGridBagComponent(panelFamily,titles[i],0,3*i,
+                    Math.max(current.getParents().size(),Math.max(current.getSiblings(tree).length,current.getChildren().size())), 1,
+                    1,2,GridBagConstraints.LINE_START);
+        }
 
 
         for (int i=0;i<current.getParents().size();i++){
             aux=current.getMemberId("parent",i,tree);
-            System.out.println(aux+" "+i+current.getParents());
-            addGridBagComponent(panelFamily,new ProfileButton(current.getMemberId("parent",aux,tree)),1,i,1,1,GridBagConstraints.CENTER);
-            addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),2,i,1,1,GridBagConstraints.CENTER);
-
-            panelFamily.add(new ProfileButton(current.getMemberId("parent",i,tree)));
-           // parentsLabelList[i] = ;
+            addGridBagComponent(panelFamily,new ProfileButton(aux),i,1,1,1,0,1,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,2,1,1,0,1,GridBagConstraints.NORTHWEST);
         }
 
-        JButton[] siblingsButtonList = new JButton[current.getSiblings(tree).length];
-        JLabel[] siblingsLabelList = new JLabel[current.getSiblings(tree).length];
-        for (int i=0;i<siblingsButtonList.length;i++){
+        for (int i=0;i<current.getSiblings(tree).length;i++){
             aux=current.getMemberId("sibling",i,tree);
-            siblingsButtonList[i] = new ProfileButton(aux);
-            siblingsLabelList[i] = createMemberLabel(tree.getMemberName(aux));
+            addGridBagComponent(panelFamily,new ProfileButton(aux),i,4,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,5,1,1,0,0,GridBagConstraints.NORTHWEST);
+
         }
 
-        JButton[] childrenButtonList = new JButton[current.getChildren().size()];
-        JLabel[] childrenLabelList = new JLabel[current.getChildren().size()];
-        for (int i=0;i<childrenButtonList.length;i++){
+        for (int i=0;i<current.getChildren().size();i++){
             aux=current.getMemberId("child",i,tree);
-            childrenButtonList[i] = new ProfileButton(aux);
-            childrenLabelList[i] = createMemberLabel(tree.getMemberName(aux));
+            addGridBagComponent(panelFamily,new ProfileButton(aux),i,7,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,8,1,1,0,0,GridBagConstraints.NORTHWEST);
         }
 
         scrollFamily.setViewportView(panelFamily);
@@ -171,7 +189,7 @@ public class Branch extends JFrame {
     }
 
     private void addGridBagComponent(JPanel p, JComponent c, int x, int y,
-                         int width, int height, int align) {
+                         int width, int height,int weightx, int weighty, int align) {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -179,11 +197,11 @@ public class Branch extends JFrame {
         gbc.gridy = y;
         gbc.gridwidth = width;
         gbc.gridheight = height;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+        gbc.insets = (c instanceof JLabel)? new Insets(5,5,60,5) : new Insets(-50+5,5,5,5);
         gbc.anchor = align;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        //gbc.fill = GridBagConstraints.HORIZONTAL;
         p.add(c, gbc);
 
     }
@@ -195,7 +213,7 @@ public class Branch extends JFrame {
         for (int i=0;i<titles.length;i++){
             titles[i]=new JLabel();
             titles[i].setText(titleText[i]);
-            titles[i].setFont(new Font("Arial", Font.PLAIN, 30));
+            titles[i].setFont(new Font("Arial", Font.BOLD, 40));
             titles[i].setForeground(new Color (255,255,255));
         }
         return titles;
