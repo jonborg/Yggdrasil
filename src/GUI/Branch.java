@@ -24,7 +24,6 @@ public class Branch extends JFrame {
 
     public Branch(Tree loadTree,int currentId){
         tree=loadTree;
-        id=currentId;
         reload(currentId);
     }
 
@@ -32,6 +31,8 @@ public class Branch extends JFrame {
         if(scrollMember!=null && scrollFamily!=null){
             removeContent(getContentPane());
         }
+
+        id=currentId;
 
         createUIMember(tree.getMember(currentId));
         createUIFamily(tree.getMember(currentId));
@@ -48,7 +49,6 @@ public class Branch extends JFrame {
         JButton photoMember;
         JLabel nameMember;
         BoxLayout layout;
-        System.out.println(current.getId());
 
         scrollMember = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelMember = new JPanel();

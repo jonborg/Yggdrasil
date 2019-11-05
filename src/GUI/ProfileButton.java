@@ -56,17 +56,19 @@ public class ProfileButton extends JButton {
 
     public void actionPerformed(ActionEvent e) {
         Branch branch = (Branch) SwingUtilities.getRoot(this);
+        System.out.println("id="+id+" branchId="+branch.id);
         if (branch.id!=id) {
             branch.reload(id);
-        }
-        if (branch.id==id && getText().contains("Add")){
-            System.out.println("Adding picture picture");
-            JFileChooser loadImage=new JFileChooser();
-            loadImage.showOpenDialog(null);
-            imageLoader(loadImage.getSelectedFile());
-            setText("");
-            branch.tree.getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
-            System.out.println(loadImage.getSelectedFile().getAbsolutePath());
+        }else {
+            if (getText().contains("Add")) {
+                System.out.println("Adding picture picture");
+                JFileChooser loadImage = new JFileChooser();
+                loadImage.showOpenDialog(null);
+                imageLoader(loadImage.getSelectedFile());
+                setText("");
+                branch.tree.getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
+                System.out.println(loadImage.getSelectedFile().getAbsolutePath());
+            }
         }
     }
 
