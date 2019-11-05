@@ -24,7 +24,6 @@ public class ProfileButton extends JButton {
         Dimension dim;
         Color color;
 
-
         try {
             BufferedImage buttonIcon = ImageIO.read(new File(path));
             setIcon(new ImageIcon(buttonIcon));
@@ -35,6 +34,7 @@ public class ProfileButton extends JButton {
             setFont(new Font("Arial", Font.PLAIN, 30));
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         }
+
 
         dim = new Dimension(DIMENSION_WIDTH, DIMENSION_HEIGHT);
         setPreferredSize(dim);
@@ -56,7 +56,31 @@ public class ProfileButton extends JButton {
 
     public void actionPerformed(ActionEvent e) {
         Branch branch = (Branch) SwingUtilities.getRoot(this);
-        branch.reload(id);
+        if (branch.id!=id) {
+            branch.reload(id);
+        }
+        if (branch.id==id && getText().contains("Add")){
+            System.out.println("Adding picture picture");
+            JFileChooser loadImage=new JFileChooser();
+            loadImage.showOpenDialog(null);
+            imageLoader(loadImage.getSelectedFile());
+            setText("");
+            branch.tree.getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
+            System.out.println(loadImage.getSelectedFile().getAbsolutePath());
+        }
+    }
+
+    private void imageLoader(File image){
+        try {
+            BufferedImage buttonIcon = ImageIO.read(image);
+            setIcon(new ImageIcon(buttonIcon));
+        } catch (IOException e) {
+            setFont(new Font("Arial", Font.PLAIN, 30));
+            setText("<html><center>Add<br />profile<br />picture</center></html>");
+        } catch (NullPointerException e) {
+            setFont(new Font("Arial", Font.PLAIN, 30));
+            setText("<html><center>Add<br />profile<br />picture</center></html>");
+        }
     }
 }
 

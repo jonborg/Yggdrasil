@@ -20,9 +20,11 @@ public class Branch extends JFrame {
     private JScrollPane scrollFamily;
 
     static Tree tree;
+    int id;
 
     public Branch(Tree loadTree,int currentId){
         tree=loadTree;
+        id=currentId;
         reload(currentId);
     }
 
@@ -55,14 +57,13 @@ public class Branch extends JFrame {
         layout = new BoxLayout(panelMember,BoxLayout.Y_AXIS);
         panelMember.setLayout(layout);
 
-        photoMember = new ProfileButton(current.getId());
+        photoMember = new ProfileButton(current.getId(), current.getImagePath());
         nameMember = createLabel(current.getName());
         info = createInfoArea("");
 
         photoMember.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameMember.setAlignmentX(Component.CENTER_ALIGNMENT);
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
 
         Dimension dim = new Dimension(400,500);
@@ -171,20 +172,21 @@ public class Branch extends JFrame {
 
         for (int i=0;i<current.getParents().size();i++){
             aux=current.getMemberId("parent",i,tree);
-            addGridBagComponent(panelFamily,new ProfileButton(aux),i,1,1,1,0,1,GridBagConstraints.NORTHWEST);
+            System.out.println(current.getImagePath());
+            addGridBagComponent(panelFamily,new ProfileButton(aux,current.getImagePath()),i,1,1,1,0,1,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,2,1,1,0,1,GridBagConstraints.NORTHWEST);
         }
 
         for (int i=0;i<current.getSiblings(tree).length;i++){
             aux=current.getMemberId("sibling",i,tree);
-            addGridBagComponent(panelFamily,new ProfileButton(aux),i,4,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,new ProfileButton(aux,current.getImagePath()),i,4,1,1,0,0,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,5,1,1,0,0,GridBagConstraints.NORTHWEST);
 
         }
 
         for (int i=0;i<current.getChildren().size();i++){
             aux=current.getMemberId("child",i,tree);
-            addGridBagComponent(panelFamily,new ProfileButton(aux),i,7,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,new ProfileButton(aux,current.getImagePath()),i,7,1,1,0,0,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,8,1,1,0,0,GridBagConstraints.NORTHWEST);
         }
 
