@@ -22,12 +22,17 @@ public class Branch extends JFrame {
     static Tree tree;
 
     public Branch(Tree loadTree,int currentId){
-
         tree=loadTree;
-        int id=currentId;
+        reload(currentId);
+    }
 
-        createUIMember(tree.getMember(id));
-        createUIFamily(tree.getMember(id));
+    public void reload(int currentId) {
+        if(scrollMember!=null && scrollFamily!=null){
+            removeContent(getContentPane());
+        }
+
+        createUIMember(tree.getMember(currentId));
+        createUIFamily(tree.getMember(currentId));
 
         panelMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,scrollMember,scrollFamily);
         panelMain.setDividerLocation(panelMember.getPreferredSize().width+20);
@@ -41,6 +46,7 @@ public class Branch extends JFrame {
         JButton photoMember;
         JLabel nameMember;
         BoxLayout layout;
+        System.out.println(current.getId());
 
         scrollMember = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelMember = new JPanel();
@@ -91,11 +97,9 @@ public class Branch extends JFrame {
     }
 
     private JLabel createMemberLabel(String str){
-        String[] splitter=str.split(" ");
-
         JLabel label = new JLabel();
 
-        label.setText("<html>" + (generateNameLabel(str,12)) + "</html>");
+        label.setText("<html>" + (generateNameLabel(str,15)) + "</html>");
         label.setFont(new Font("Arial", Font.PLAIN, 30));
         label.setForeground(new Color (255,255,255));
         //label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
@@ -116,12 +120,12 @@ public class Branch extends JFrame {
                 counter=name.length();
                 continue;
             }
-            if (result.length()+name.length()+1<=maxLetters){
+            if (counter+name.length()+1<=maxLetters){
                 result+=" "+name;
                 counter+=name.length()+1;
             }else{
                 result+="<br />"+name;
-                counter=0;
+                counter=name.length();
             }
         }
         return result;
@@ -219,10 +223,10 @@ public class Branch extends JFrame {
         return titles;
     }
 
-    public void reload(int currentId){
-        createUIMember(tree.getMember(currentId));
-        createUIFamily(tree.getMember(currentId));
-
+    private void removeContent(Container container){
+        container.removeAll();
+        container.revalidate();
+        container.repaint();
     }
 
 
