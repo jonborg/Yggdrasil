@@ -22,6 +22,19 @@ public class Branch extends JFrame {
     static Tree tree;
     int id;
 
+    final float uiScaler = (float) Math.min(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1920.0,
+                                            Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1080.0);
+    final int FRAME_WIDTH = (int) (uiScaler*1500);
+    final int FRAME_HEIGHT = (int) (uiScaler*1000);
+
+    final int TITLE_SIZE = (int) (uiScaler*40);
+    final int LABEL_SIZE = (int) (uiScaler*30);
+
+    final int INFO_WIDTH = (int) (uiScaler*400);
+    final int INFO_HEIGHT = (int) (uiScaler*500);
+
+
+
     public Branch(Tree loadTree,int currentId){
         tree=loadTree;
         reload(currentId);
@@ -41,7 +54,7 @@ public class Branch extends JFrame {
         panelMain.setDividerLocation(panelMember.getPreferredSize().width+20);
         getContentPane().add(panelMain);
 
-        setPreferredSize(new Dimension(1500, 1000));
+        setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     }
 
     private void createUIMember(Member current){
@@ -52,12 +65,12 @@ public class Branch extends JFrame {
 
         scrollMember = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelMember = new JPanel();
-        panelMember.setPreferredSize(new Dimension(500,1000));
+        panelMember.setPreferredSize(new Dimension(FRAME_WIDTH/3,FRAME_HEIGHT));
 
         layout = new BoxLayout(panelMember,BoxLayout.Y_AXIS);
         panelMember.setLayout(layout);
 
-        photoMember = new ProfileButton(current.getId(), current.getImagePath());
+        photoMember = new ProfileButton(current.getId(), current.getImagePath(),uiScaler);
         nameMember = createLabel(current.getName());
         info = createInfoArea("");
 
@@ -66,7 +79,7 @@ public class Branch extends JFrame {
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        Dimension dim = new Dimension(400,500);
+        Dimension dim = new Dimension(INFO_WIDTH,INFO_HEIGHT);
         info.setMinimumSize(dim);
         info.setMaximumSize(dim);
         info.setPreferredSize(dim);
@@ -90,7 +103,7 @@ public class Branch extends JFrame {
 
 
         label.setText(html);
-        label.setFont(new Font("Arial", Font.PLAIN, 30));
+        label.setFont(new Font("Arial", Font.PLAIN, LABEL_SIZE));
         label.setForeground(new Color (255,255,255));
         //label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
         //label.setPreferredSize(new Dimension (200,50));
@@ -101,7 +114,7 @@ public class Branch extends JFrame {
         JLabel label = new JLabel();
 
         label.setText("<html>" + (generateNameLabel(str,15)) + "</html>");
-        label.setFont(new Font("Arial", Font.PLAIN, 30));
+        label.setFont(new Font("Arial", Font.PLAIN, LABEL_SIZE));
         label.setForeground(new Color (255,255,255));
         //label.setBorder(BorderFactory.createEmptyBorder(20,0,50,0));
         //label.setPreferredSize(new Dimension (200,50));
@@ -141,7 +154,7 @@ public class Branch extends JFrame {
         JScrollPane scroll = new JScrollPane(textArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        scroll.setPreferredSize(new Dimension(400,400));
+        scroll.setPreferredSize(new Dimension(INFO_WIDTH,INFO_HEIGHT));
 
         return scroll;
     }
@@ -173,20 +186,20 @@ public class Branch extends JFrame {
         for (int i=0;i<current.getParents().size();i++){
             aux=current.getMemberId("parent",i,tree);
             System.out.println(current.getImagePath());
-            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath()),i,1,1,1,0,1,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath(),uiScaler),i,1,1,1,0,1,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,2,1,1,0,1,GridBagConstraints.NORTHWEST);
         }
 
         for (int i=0;i<current.getSiblings(tree).length;i++){
             aux=current.getMemberId("sibling",i,tree);
-            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath()),i,4,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath(),uiScaler),i,4,1,1,0,0,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,5,1,1,0,0,GridBagConstraints.NORTHWEST);
 
         }
 
         for (int i=0;i<current.getChildren().size();i++){
             aux=current.getMemberId("child",i,tree);
-            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath()),i,7,1,1,0,0,GridBagConstraints.NORTHWEST);
+            addGridBagComponent(panelFamily,new ProfileButton(aux,tree.getMember(aux).getImagePath(),uiScaler),i,7,1,1,0,0,GridBagConstraints.NORTHWEST);
             addGridBagComponent(panelFamily,createMemberLabel(tree.getMemberName(aux)),i,8,1,1,0,0,GridBagConstraints.NORTHWEST);
         }
 
@@ -219,7 +232,7 @@ public class Branch extends JFrame {
         for (int i=0;i<titles.length;i++){
             titles[i]=new JLabel();
             titles[i].setText(titleText[i]);
-            titles[i].setFont(new Font("Arial", Font.BOLD, 40));
+            titles[i].setFont(new Font("Arial", Font.BOLD, TITLE_SIZE));
             titles[i].setForeground(new Color (255,255,255));
         }
         return titles;

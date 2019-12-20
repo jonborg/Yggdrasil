@@ -13,16 +13,22 @@ import java.io.IOException;
 
 public class ProfileButton extends JButton {
     int id;
-    int DIMENSION_WIDTH = 200;
-    int DIMENSION_HEIGHT = 200;
+    Branch branch;
 
-    public ProfileButton(Member member) {
-        this(member.getId(), member.getImagePath());
+    int BUTTON_WIDTH = 200;
+    int BUTTON_HEIGHT = 200;
+    int FONT_SIZE = 30;
+
+    public ProfileButton(Member member, float scaler) {
+        this(member.getId(), member.getImagePath(), scaler);
     }
 
-    public ProfileButton(int setId, String path) {
+    public ProfileButton(int setId, String path, float scaler) {
 
         id = setId;
+        branch = (Branch) SwingUtilities.getRoot(this);
+        reScaleDimensions(scaler);
+
         Dimension dim;
         Color color;
 
@@ -30,15 +36,15 @@ public class ProfileButton extends JButton {
             BufferedImage buttonIcon = ImageIO.read(new File(path));
             setIcon(new ImageIcon(buttonIcon));
         } catch (IOException e) {
-            setFont(new Font("Arial", Font.PLAIN, 30));
+            setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         } catch (NullPointerException e) {
-            setFont(new Font("Arial", Font.PLAIN, 30));
+            setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         }
 
 
-        dim = new Dimension(DIMENSION_WIDTH, DIMENSION_HEIGHT);
+        dim = new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);
         setPreferredSize(dim);
         setMaximumSize(dim);
         setMinimumSize(dim);
@@ -57,7 +63,6 @@ public class ProfileButton extends JButton {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Branch branch = (Branch) SwingUtilities.getRoot(this);
         System.out.println("id="+id+" branchId="+branch.id);
         if (branch.id!=id) {
             branch.reload(id);
@@ -87,6 +92,12 @@ public class ProfileButton extends JButton {
         } catch (IllegalArgumentException|NullPointerException e) {
             throw new NullPointerException();
         }
+    }
+
+    public void reScaleDimensions(float scaler){
+        BUTTON_WIDTH = (int) (scaler*BUTTON_WIDTH);
+        BUTTON_HEIGHT = (int) (scaler*BUTTON_HEIGHT);
+        FONT_SIZE = (int) (scaler*FONT_SIZE);
     }
 }
 
