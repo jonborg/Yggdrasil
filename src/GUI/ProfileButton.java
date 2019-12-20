@@ -1,5 +1,7 @@
 package GUI;
 
+import Family.Member;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +16,8 @@ public class ProfileButton extends JButton {
     int DIMENSION_WIDTH = 200;
     int DIMENSION_HEIGHT = 200;
 
-    public ProfileButton(int setId) {
-        this(setId, null);
+    public ProfileButton(Member member) {
+        this(member.getId(), member.getImagePath());
     }
 
     public ProfileButton(int setId, String path) {
@@ -60,7 +62,7 @@ public class ProfileButton extends JButton {
         if (branch.id!=id) {
             branch.reload(id);
         }else {
-            if (getText().contains("Add")) {
+            try {
                 System.out.println("Adding picture picture");
                 JFileChooser loadImage = new JFileChooser();
                 loadImage.showOpenDialog(null);
@@ -68,20 +70,22 @@ public class ProfileButton extends JButton {
                 setText("");
                 branch.tree.getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
                 System.out.println(loadImage.getSelectedFile().getAbsolutePath());
+            }catch(IOException exception){
+                System.out.println("File not found");
+            }catch(NullPointerException exception){
+                System.out.println("No image was selected.");
             }
         }
     }
 
-    private void imageLoader(File image){
+    private void imageLoader(File image) throws IOException,NullPointerException{
         try {
             BufferedImage buttonIcon = ImageIO.read(image);
             setIcon(new ImageIcon(buttonIcon));
         } catch (IOException e) {
-            setFont(new Font("Arial", Font.PLAIN, 30));
-            setText("<html><center>Add<br />profile<br />picture</center></html>");
-        } catch (NullPointerException e) {
-            setFont(new Font("Arial", Font.PLAIN, 30));
-            setText("<html><center>Add<br />profile<br />picture</center></html>");
+            throw new IOException();
+        } catch (IllegalArgumentException|NullPointerException e) {
+            throw new NullPointerException();
         }
     }
 }

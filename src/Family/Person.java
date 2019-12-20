@@ -5,6 +5,13 @@ public class Person {
     private String name;
     private String imagePath;
 
+    public Person(){
+        super();
+        id = 0;
+        name = null;
+        imagePath = null;
+    }
+
     public Person(String name){
         this.name = name;
     }
