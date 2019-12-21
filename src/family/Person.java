@@ -1,4 +1,4 @@
-package Family;
+package family;
 
 public class Person {
     private int id;

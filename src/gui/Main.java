@@ -1,6 +1,8 @@
-package GUI;
+package gui;
 
-import Family.*;
+import family.*;
+import gui.branch.display.Branch;
+
 import javax.swing.*;
 import java.io.IOException;
 

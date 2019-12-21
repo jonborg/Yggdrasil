@@ -1,17 +1,18 @@
-package GUI;
+package gui.branch.components;
 
-import Family.Member;
+import family.Member;
+import gui.Scaleable;
+import gui.branch.display.Branch;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ProfileButton extends JButton {
+public class ProfileButton extends JButton implements Scaleable {
     int id;
     Branch branch;
 
@@ -19,15 +20,14 @@ public class ProfileButton extends JButton {
     int BUTTON_HEIGHT = 200;
     int FONT_SIZE = 30;
 
-    public ProfileButton(Member member, float scaler) {
-        this(member.getId(), member.getImagePath(), scaler);
+    public ProfileButton(Member member) {
+        this(member.getId(), member.getImagePath());
     }
 
-    public ProfileButton(int setId, String path, float scaler) {
+    public ProfileButton(int setId, String path) {
 
         id = setId;
-        branch = (Branch) SwingUtilities.getRoot(this);
-        reScaleDimensions(scaler);
+        reScaleDimensions(uiScaler);
 
         Dimension dim;
         Color color;
@@ -63,8 +63,9 @@ public class ProfileButton extends JButton {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println("id="+id+" branchId="+branch.id);
-        if (branch.id!=id) {
+        branch = (Branch) SwingUtilities.getRoot(this);
+        System.out.println("id="+id+" branchId="+branch.getCurrentId());
+        if (branch.getCurrentId()!=id) {
             branch.reload(id);
         }else {
             try {
@@ -73,8 +74,8 @@ public class ProfileButton extends JButton {
                 loadImage.showOpenDialog(null);
                 imageLoader(loadImage.getSelectedFile());
                 setText("");
-                branch.tree.getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
-                System.out.println(loadImage.getSelectedFile().getAbsolutePath());
+                branch.getTree().getMember(id).setImagePath(loadImage.getSelectedFile().getAbsolutePath());
+                System.out.println("Selected file: " + loadImage.getSelectedFile().getAbsolutePath());
             }catch(IOException exception){
                 System.out.println("File not found");
             }catch(NullPointerException exception){
@@ -94,7 +95,7 @@ public class ProfileButton extends JButton {
         }
     }
 
-    public void reScaleDimensions(float scaler){
+    private void reScaleDimensions(float scaler){
         BUTTON_WIDTH = (int) (scaler*BUTTON_WIDTH);
         BUTTON_HEIGHT = (int) (scaler*BUTTON_HEIGHT);
         FONT_SIZE = (int) (scaler*FONT_SIZE);

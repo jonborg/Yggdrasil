@@ -1,4 +1,4 @@
-package Family;
+package family;
 
 import java.util.*;
 
@@ -39,7 +39,7 @@ public class Member extends Person {
         this.partner=partner.getId();
         partner.partner=this.getId();
     }
-
+/*
     public int getMemberId(String mode, int index, Tree tree){
         if (mode.toLowerCase().contains("parent")){
             return this.getParents().get(index);
@@ -52,7 +52,7 @@ public class Member extends Person {
         }
         return -1;
     }
-
+*/
 
     public void associateParent(Tree tree, Member parent){
         setParent(parent);
@@ -88,8 +88,8 @@ public class Member extends Person {
         return parents;
     }
 
-
-    public Member[] getSiblings(Tree tree){
+/*
+     public Member[] getSiblings(Tree tree){
         Set<Member> siblings = new HashSet();
         for(int parentId : this.parents){
             Member parent = tree.map.get(parentId);
@@ -102,7 +102,21 @@ public class Member extends Person {
 
         return siblings.toArray(Member[]::new);
     }
+*/
 
+    public List<Integer> getSiblings(Tree tree){
+        Set<Integer> siblings = new HashSet();
+        for(int parentId : this.parents){
+            Member parent = tree.map.get(parentId);
+            for (int siblingId : parent.children){
+                if (siblingId != this.getId()) {
+                    siblings.add(siblingId);
+                }
+            }
+        }
+
+        return new ArrayList<>(siblings);
+    }
 
     public List<Integer> getChildren(){
         return children;

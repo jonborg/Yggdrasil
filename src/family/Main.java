@@ -1,8 +1,5 @@
-package Family;
+package family;
 
-import GUI.*;
-
-import javax.swing.*;
 import java.io.IOException;
 
 public class Main {
@@ -46,9 +43,7 @@ public class Main {
         for (int i=0;i<5;i++){
             System.out.println(person[i].getId());
             System.out.println("Parents:\r\n"+person[i].getParents());
-            System.out.println("Siblings:");
-            for (Member s: person[i].getSiblings(tree))
-                System.out.println(s.getId()+" ");
+            System.out.println("Siblings:\r\n"+person[i].getSiblings(tree));
             System.out.println("Children:\r\n"+person[i].getChildren());
             System.out.println("Partner:\r\n"+person[i].getPartner());
             System.out.println("\r\n");
