@@ -16,10 +16,6 @@ public class ProfileButton extends JButton implements Scaleable {
     int id;
     Branch branch;
 
-    int BUTTON_WIDTH = 200;
-    int BUTTON_HEIGHT = 200;
-    int FONT_SIZE = 30;
-
     public ProfileButton(Member member) {
         this(member.getId(), member.getImagePath());
     }
@@ -27,7 +23,6 @@ public class ProfileButton extends JButton implements Scaleable {
     public ProfileButton(int setId, String path) {
 
         id = setId;
-        reScaleDimensions(uiScaler);
 
         Dimension dim;
         Color color;
@@ -36,10 +31,10 @@ public class ProfileButton extends JButton implements Scaleable {
             BufferedImage buttonIcon = ImageIO.read(new File(path));
             setIcon(new ImageIcon(buttonIcon));
         } catch (IOException e) {
-            setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+            setFont(new Font("Arial", Font.PLAIN, LABEL_SIZE));
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         } catch (NullPointerException e) {
-            setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
+            setFont(new Font("Arial", Font.PLAIN, LABEL_SIZE));
             setText("<html><center>Add<br />profile<br />picture</center></html>");
         }
 
@@ -93,12 +88,6 @@ public class ProfileButton extends JButton implements Scaleable {
         } catch (IllegalArgumentException|NullPointerException e) {
             throw new NullPointerException();
         }
-    }
-
-    private void reScaleDimensions(float scaler){
-        BUTTON_WIDTH = (int) (scaler*BUTTON_WIDTH);
-        BUTTON_HEIGHT = (int) (scaler*BUTTON_HEIGHT);
-        FONT_SIZE = (int) (scaler*FONT_SIZE);
     }
 }
 

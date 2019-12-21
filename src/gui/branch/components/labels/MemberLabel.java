@@ -7,19 +7,13 @@ import java.awt.*;
 
 public class MemberLabel extends JLabel implements Scaleable {
 
-    int LABEL_SIZE = 30;
-
-    String FONT_TYPE="Arial";
-
     public MemberLabel(String str){
         super(str);
-        rescaleDimensions(uiScaler);
         setSettings();
     }
 
     public MemberLabel(String str, boolean center){
         super("", JLabel.CENTER);
-        rescaleDimensions(uiScaler);
         if(!center) str = filterName(str);
 
         String html = "<html>";
@@ -73,7 +67,4 @@ public class MemberLabel extends JLabel implements Scaleable {
         setForeground(new Color (255,255,255));
     }
 
-    private void rescaleDimensions(float scaler){
-        LABEL_SIZE = (int) (scaler*LABEL_SIZE);
-    }
 }
