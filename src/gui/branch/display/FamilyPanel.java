@@ -15,6 +15,9 @@ public class FamilyPanel extends JPanel implements Scaleable {
     Tree tree;
     Member current;
 
+    final int TITLE_SIZE = (int) (uiScaler*40);
+
+
     public FamilyPanel(Tree tree, Member current){
         super();
         this.tree=tree;
@@ -59,7 +62,7 @@ public class FamilyPanel extends JPanel implements Scaleable {
 
         for (int i=0;i<titles.length;i++){
             titles[i]=new MemberLabel(titleText[i]);
-            titles[i].setBold();
+            titles[i].setBold(TITLE_SIZE);
         }
         return titles;
     }

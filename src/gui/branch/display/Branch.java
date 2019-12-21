@@ -23,8 +23,6 @@ public class Branch extends JFrame implements Scaleable {
     final int FRAME_WIDTH = (int) (uiScaler*1500);
     final int FRAME_HEIGHT = (int) (uiScaler*1000);
 
-    final int TITLE_SIZE = (int) (uiScaler*40);
-
 
     public int getCurrentId(){
         return this.id;

@@ -20,13 +20,12 @@ public class MemberLabel extends JLabel implements Scaleable {
     public MemberLabel(String str, boolean center){
         super("", JLabel.CENTER);
         rescaleDimensions(uiScaler);
+        if(!center) str = filterName(str);
 
         String html = "<html>";
-        if(center)
-            html += "<center>";
+        if(center) html += "<center>";
         html += generateNameLabel(str,15);
-        if(center)
-            html += "</center>";
+        if(center) html += "</center>";
         html += "</html>";
 
         setText(html);
@@ -57,9 +56,17 @@ public class MemberLabel extends JLabel implements Scaleable {
         return result;
     }
 
-    public void setBold(){
-        setFont(new Font(FONT_TYPE,Font.BOLD,LABEL_SIZE));
+    public void setBold(int size){
+        setFont(new Font(FONT_TYPE,Font.BOLD,size));
     }
+
+    private String filterName(String name){
+        String [] nameSplit = name.split(" ");
+        int l = nameSplit.length;
+        if (l > 2) return nameSplit[0]+" "+nameSplit[1]+" "+nameSplit[l-1];
+        return name;
+    }
+
 
     private void setSettings(){
         setFont(new Font(FONT_TYPE, Font.PLAIN, LABEL_SIZE));
