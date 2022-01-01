@@ -27,7 +27,15 @@ hs_err_pid*
 
 *.iml
 
+#Docker created folders
+docker/data/*
+docker/postgres-data/*
+docker/sql/*
+docker/var/*
+
+
 #Auxiliar files#
 /out
 /images
 *.csv
+
